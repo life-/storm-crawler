@@ -45,7 +45,7 @@ public class ESCrawlTopology extends ConfigurableTopology {
     }
 
     @Override
-    protected int run(String[] args) {
+    protected int run(String[] args) throws Exception {
         TopologyBuilder builder = new TopologyBuilder();
 
         int numWorkers = ConfUtils.getInt(getConf(), "topology.workers", 1);

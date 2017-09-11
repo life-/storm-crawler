@@ -41,7 +41,7 @@ public class SolrCrawlTopology extends ConfigurableTopology {
     }
 
     @Override
-    protected int run(String[] args) {
+    protected int run(String[] args) throws Exception {
         TopologyBuilder builder = new TopologyBuilder();
 
         builder.setSpout("spout", new SolrSpout());

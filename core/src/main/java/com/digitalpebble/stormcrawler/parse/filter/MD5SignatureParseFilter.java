@@ -21,7 +21,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.storm.shade.org.apache.commons.lang.StringUtils;
+// import org.apache.storm.shade.org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.DocumentFragment;
 
 import com.digitalpebble.stormcrawler.Metadata;

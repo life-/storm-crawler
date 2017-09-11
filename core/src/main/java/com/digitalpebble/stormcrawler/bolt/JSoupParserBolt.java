@@ -123,7 +123,7 @@ public class JSoupParserBolt extends StatusEmitterBolt {
                 RobotsTags.ROBOTS_NO_FOLLOW_STRICT, true);
 
         treat_non_html_as_error = ConfUtils.getBoolean(conf,
-                "jsoup.treat.non.html.as.error", true);
+                "jsoup.treat.non.html.as.error", false);
 
         detectMimeType = ConfUtils.getBoolean(conf, "detect.mimetype", true);
 
@@ -163,6 +163,7 @@ public class JSoupParserBolt extends StatusEmitterBolt {
         if (StringUtils.isNotBlank(mimeType)) {
             if (mimeType.toLowerCase().contains("html")) {
                 CT_OK = true;
+            } else if (mimeType.toLowerCase().contains("json")) {
             }
         }
         // go ahead even if no mimetype is available

@@ -40,7 +40,7 @@ public abstract class ConfigurableTopology {
     protected boolean isLocal = false;
     protected int ttl = -1;
 
-    public static void start(ConfigurableTopology topology, String args[]) {
+    public static void start(ConfigurableTopology topology, String args[]) throws Exception {
         // loads the default configuration file
         Map defaultSCConfig = Utils.findAndReadConfigFile(
                 "crawler-default.yaml", false);
@@ -54,10 +54,10 @@ public abstract class ConfigurableTopology {
         return conf;
     }
 
-    protected abstract int run(String args[]);
+    protected abstract int run(String args[]) throws Exception;
 
     /** Submits the topology with the name taken from the configuration **/
-    protected int submit(Config conf, TopologyBuilder builder) {
+    protected int submit(Config conf, TopologyBuilder builder) throws Exception {
         String name = ConfUtils.getString(conf, Config.TOPOLOGY_NAME);
         if (StringUtils.isBlank(name))
             throw new RuntimeException("No value found for "
@@ -66,7 +66,7 @@ public abstract class ConfigurableTopology {
     }
 
     /** Submits the topology under a specific name **/
-    protected int submit(String name, Config conf, TopologyBuilder builder) {
+    protected int submit(String name, Config conf, TopologyBuilder builder) throws Exception {
 
         // register Metadata for serialization with FieldsSerializer
         Config.registerSerialization(conf, Metadata.class);

@@ -71,7 +71,7 @@
 		<additionalparam>-Xdoclint:none</additionalparam>
 		<!-- dependency versions -->
 		<junit.version>4.11</junit.version>
-		<storm-core.version>1.1.0</storm-core.version>
+		<storm-core.version>2.0.0-SNAPSHOT</storm-core.version>
 		<jackson-databind.version>2.6.6</jackson-databind.version>
 	</properties>
 
@@ -228,7 +228,8 @@
 		<module>external/solr</module>
 		<module>external/sql</module>
 		<module>external/tika</module>
-		<module>external/warc</module>
+		<!-- <module>external/warc</module> -->
 		<module>archetype</module>
+		<module>stormcrawler</module>
 	</modules>
 </project>

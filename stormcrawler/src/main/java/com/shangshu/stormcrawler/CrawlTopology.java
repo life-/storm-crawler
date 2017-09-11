@@ -1,3 +1,5 @@
+package com.shangshu.stormcrawler;
+
 /**
  * Licensed to DigitalPebble Ltd under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -15,17 +17,15 @@
  * limitations under the License.
  */
 
-package com.digitalpebble.stormcrawler.sql;
-
-import com.digitalpebble.stormcrawler.ConfigurableTopology;
-import com.digitalpebble.stormcrawler.Constants;
+import com.digitalpebble.stormcrawler.*;
 import com.digitalpebble.stormcrawler.bolt.FetcherBolt;
 import com.digitalpebble.stormcrawler.bolt.JSoupParserBolt;
 import com.digitalpebble.stormcrawler.bolt.SiteMapParserBolt;
 import com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt;
 import com.digitalpebble.stormcrawler.indexing.StdOutIndexer;
+import com.digitalpebble.stormcrawler.persistence.StdOutStatusUpdater;
+import com.digitalpebble.stormcrawler.spout.MemorySpout;
 
-import org.apache.storm.metric.LoggingMetricsConsumer;
 import org.apache.storm.topology.TopologyBuilder;
 import org.apache.storm.tuple.Fields;
 
@@ -40,12 +40,13 @@ public class CrawlTopology extends ConfigurableTopology {
 
     @Override
     protected int run(String[] args) throws Exception {
-
-        int numBuckets = 10;
-
         TopologyBuilder builder = new TopologyBuilder();
 
-        builder.setSpout("spout", new SQLSpout()).setNumTasks(numBuckets);
+        String[] testURLs = new String[] { "http://www.lequipe.fr/",
+                "http://www.lemonde.fr/", "http://www.bbc.co.uk/",
+                "http://storm.apache.org/", "http://digitalpebble.com/" };
+
+        builder.setSpout("spout", new MemorySpout(testURLs));
 
         builder.setBolt("partitioner", new URLPartitionerBolt())
                 .shuffleGrouping("spout");
@@ -62,13 +63,14 @@ public class CrawlTopology extends ConfigurableTopology {
         builder.setBolt("index", new StdOutIndexer()).localOrShuffleGrouping(
                 "parse");
 
-        builder.setBolt("status", new StatusUpdaterBolt(numBuckets))
-                .localOrShuffleGrouping("fetch", Constants.StatusStreamName)
-                .localOrShuffleGrouping("sitemap", Constants.StatusStreamName)
-                .localOrShuffleGrouping("index", Constants.StatusStreamName)
-                .localOrShuffleGrouping("parse", Constants.StatusStreamName);
-
-        conf.registerMetricsConsumer(LoggingMetricsConsumer.class);
+        Fields furl = new Fields("url");
+        
+        // can also use MemoryStatusUpdater for simple recursive crawls
+        builder.setBolt("status", new StdOutStatusUpdater())
+                .fieldsGrouping("fetch", Constants.StatusStreamName, furl)
+                .fieldsGrouping("sitemap", Constants.StatusStreamName, furl)
+                .fieldsGrouping("parse", Constants.StatusStreamName, furl)
+                .fieldsGrouping("index", Constants.StatusStreamName, furl);
 
         return submit("crawl", conf, builder);
     }

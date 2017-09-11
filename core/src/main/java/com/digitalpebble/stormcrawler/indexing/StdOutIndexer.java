@@ -71,7 +71,7 @@ public class StdOutIndexer extends AbstractIndexerBolt {
         // display text of the document?
         if (fieldNameForText() != null) {
             String text = tuple.getStringByField("text");
-            System.out.println(fieldNameForText() + "\t" + trimValue(text));
+            System.out.println("elmle:" + fieldNameForText() + "\t" + trimValue(text));
         }
 
         if (fieldNameForURL() != null) {
@@ -97,8 +97,8 @@ public class StdOutIndexer extends AbstractIndexerBolt {
     }
 
     private String trimValue(String value) {
-        if (value.length() > 100)
-            return value.length() + " chars";
+        // if (value.length() > 100)
+        //     return value.length() + " chars";
         return value;
     }
 

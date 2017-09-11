@@ -92,10 +92,10 @@ public class ContentFilter extends ParseFilter {
                         "Restricted text for doc {}. Text size was {} and is now {}",
                         URL, pd.getText().length(), newText.length());
 
-                pd.setText(newText.toString());
-
-                pd.getMetadata().setValue(MATCH_KEY, expression.getLabel());
-
+                // store the matched text from parseDate.text  to parseData.metadata
+                // pd.setText(newText.toString());
+                // pd.getMetadata().setValue(MATCH_KEY, expression.getLabel());
+                pd.getMetadata().setValue(expression.getLabel(), newText.toString());
                 return;
             } catch (XPathExpressionException e) {
                 LOG.error("Caught XPath expression", e);

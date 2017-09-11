@@ -39,7 +39,7 @@ public class SeedInjector extends ConfigurableTopology {
     }
 
     @Override
-    public int run(String[] args) {
+    public int run(String[] args) throws Exception {
 
         if (args.length == 0) {
             System.err.println("SeedInjector seed_dir file_filter");

@@ -26,7 +26,8 @@ import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.client.solrj.impl.ConcurrentUpdateSolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.request.UpdateRequest;
-import org.apache.storm.shade.org.apache.commons.lang.StringUtils;
+// import org.apache.storm.shade.org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.digitalpebble.stormcrawler.util.ConfUtils;
 

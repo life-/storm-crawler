@@ -29,6 +29,7 @@ import java.util.Map;
 
 import org.apache.storm.Config;
 import org.apache.storm.utils.Utils;
+import org.apache.storm.utils.ObjectReader;
 import org.yaml.snakeyaml.Yaml;
 
 import clojure.lang.PersistentVector;
@@ -43,7 +44,7 @@ public class ConfUtils {
     public static int getInt(Map<String, Object> conf, String key,
             int defaultValue) {
         Object obj = Utils.get(conf, key, defaultValue);
-        return Utils.getInt(obj);
+        return ObjectReader.getInt(obj);
     }
 
     public static long getLong(Map<String, Object> conf, String key,
@@ -62,7 +63,7 @@ public class ConfUtils {
     public static boolean getBoolean(Map<String, Object> conf, String key,
             boolean defaultValue) {
         Object obj = Utils.get(conf, key, defaultValue);
-        return Utils.getBoolean(obj, defaultValue);
+        return ObjectReader.getBoolean(obj, defaultValue);
     }
 
     public static String getString(Map<String, Object> conf, String key) {

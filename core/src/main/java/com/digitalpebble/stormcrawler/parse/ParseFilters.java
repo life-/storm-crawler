@@ -146,6 +146,8 @@ public class ParseFilters extends ParseFilter {
                 ParseFilter filterInstance = (ParseFilter) filterClass
                         .newInstance();
 
+                // TODO: 给所有parseFilter 加个URL pattern
+
                 JsonNode paramNode = afilterConf.get("params");
                 if (paramNode != null) {
                     filterInstance.configure(stormConf, paramNode);
@@ -182,6 +184,8 @@ public class ParseFilters extends ParseFilter {
 
         for (ParseFilter filter : filters) {
             long start = System.currentTimeMillis();
+            // TODO: 这里加个url 是否匹配筛选
+            
             if (doc == null && filter.needsDOM()) {
                 LOG.info(
                         "ParseFilter {} needs DOM but has none to work on - skip : {}",
